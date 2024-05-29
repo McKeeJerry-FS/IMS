@@ -10,8 +10,4 @@
     <ProjectReference Include="..\IMS.CoreBusiness\IMS.CoreBusiness.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Products\" />
-  </ItemGroup>
-
 </Project>
