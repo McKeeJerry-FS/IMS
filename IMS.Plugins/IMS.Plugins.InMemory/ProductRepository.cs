@@ -11,10 +11,9 @@ public class ProductRepository : IProductRepository
     public ProductRepository(){
         _products = new List<Product>() 
 			{ 
-				new Product { ProductId = 1, ProductName = "Bike Seat", Quantity = 10, Price = 2},
-				new Product { ProductId = 2, ProductName = "Bike Body", Quantity = 10, Price = 15},
-				new Product { ProductId = 3, ProductName = "Bike Wheels", Quantity = 20, Price = 8},
-				new Product { ProductId = 4, ProductName = "Bike Peddles", Quantity = 20, Price = 1},
+				new Product { ProductId = 1, ProductName = "Bike", Quantity = 10, Price = 150},
+				new Product { ProductId = 2, ProductName = "Car", Quantity = 10, Price = 25000},
+				
 			};
     }
 

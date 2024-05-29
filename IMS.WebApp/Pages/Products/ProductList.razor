@@ -2,8 +2,17 @@
 
 <PageTitle>Product List</PageTitle>
 
-<h3>ProductList</h3>
-
+<h3>Product List</h3>
+<br />
+<SearchProductComponenet OnSearchProduct="OnProductSearch"></SearchProductComponenet>
+<br />
+<ProductListComponent SearchTerm="@searchTerm"></ProductListComponent>
 @code {
+    private string searchTerm = string.Empty;
+
+    private void OnProductSearch(string searchTerm)
+    {
+        this.searchTerm = searchTerm;
+    }
 
 }
