@@ -1,7 +1,8 @@
 ﻿using IMS.CoreBusiness;
 using IMS.UseCases.PluginInterfaces;
 
-namespace IMS.UseCases;
+
+namespace IMS.UseCases.Inventories;
 
 public class EditInventoryUseCase : IEditInventoryUseCase
 {
