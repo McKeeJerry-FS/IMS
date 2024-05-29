@@ -13,6 +13,8 @@
 
   <ItemGroup>
     <Folder Include="Controls\Inventories\" />
+    <Folder Include="Controls\Products\" />
+    <Folder Include="Pages\Products\" />
   </ItemGroup>
 
 </Project>
