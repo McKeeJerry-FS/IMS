@@ -1,0 +1,50 @@
+﻿@page "/addProduct"
+@inject IAddProductUseCase AddProductUseCase
+@inject NavigationManager navigation
+
+<h3>AddProduct</h3>
+<br />
+<EditForm Model="product" OnValidSubmit="SaveProduct">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group">
+        <label for="name">Product Name</label>
+        <InputText id="name" @bind-Value="product.ProductName"
+                   class="form-control" >
+                   </InputText>
+    </div>
+
+    <div class="form-group">
+        <label for="quantity">Quantity</label>
+        <InputNumber id="quantity" @bind-Value="product.Quantity"
+                   class="form-control" >
+                   </InputNumber>
+    </div>
+
+    <div class="form-group">
+        <label for="price">Price</label>
+        <InputNumber id="price" @bind-Value="product.Price"
+                   class="form-control" >
+                   </InputNumber>
+    </div>
+    <br/>
+    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="button" class="btn btn-danger" @onclick="Cancel">Cancel</button>
+
+
+</EditForm>
+
+
+@code {
+
+    private Product product = new Product();
+
+    private async Task SaveProduct(){
+        await AddProductUseCase.ExecuteAsync(product);
+        navigation.NavigateTo("/products");
+    }
+
+    private void Cancel(){
+        navigation.NavigateTo("/products");
+    }
+}
