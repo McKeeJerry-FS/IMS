@@ -1,6 +1,81 @@
 ﻿@page "/about"
 
 <h3>About the build...</h3>
+<div class="row">
+    <!-- Tech Stack Card -->
+    <div class="col-4">
+        <div class="card">
+            <div class="card-header bg-primary-subtle">
+                The Tech Stack
+            </div>
+            <div class="card-body">
+                <ul style="list-style-type: none;">
+                    <li>                      
+                        <span class="fs-4"><i class="devicon-blazor-original colored"></i> Blazor WebAssembly</span>        
+                    </li>
+                    <li>                      
+                        <span class="fs-4"><i class="devicon-wasm-original colored"></i> WebAssembly</span>        
+                    </li>
+                    <li>                      
+                        <span class="fs-4"><i class="devicon-csharp-line colored"></i> C#</span>        
+                    </li>
+                    <li>                      
+                        <span class="fs-4"><i class="devicon-dotnetcore-plain colored"></i> .NET Core</span>        
+                    </li>
+                    <li>                      
+                        <span class="fs-4"><i class="devicon-bootstrap-plain colored"></i> Bootstrap 5</span>        
+                    </li>
+                    <li>                      
+                        <span class="fs-4"><i class="devicon-css3-plain-wordmark colored"></i> CSS3</span>        
+                    </li>
+                    <li>                      
+                        <span class="fs-4"><i class="devicon-html5-plain-wordmark colored"></i> HTML5</span>        
+                    </li>
+                    <li>                      
+                        <span class="fs-4"><i class="devicon-javascript-plain colored"></i> JavaScript</span>        
+                    </li>
+                    <li>                      
+                        <span class="fs-4"><i class="devicon-github-original-wordmark colored"></i> Git/GitHub</span>        
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- Build Card -->
+    <div class="col-8">
+        <div class="card">
+            <div class="card-header bg-primary-subtle">
+                The Buildout...
+            </div>
+            <div class="card-body">
+                <h1 class="border-bottom border-2 border-dark">The Code</h1>
+        <div class="row">
+            <div class="col-12 col-lg-6 bg-dark ms-1">
+                <!-- Display Code Here -->
+                <pre class="line-numbers"> <!-- This tag allows for any formatted text (indents, tabs, spaces) to be preserved -->
+                    <code class="language-js"> <!-- allows code to be added to a block and formatted for code -->
+                function displayMessage() {
+                    // get the text out of input and assign to a variable
+                    let msg = document.getElementById('message').value;
+                    
+                    Swal.fire(
+                        {
+                            backdrop: false,
+                            title: 'APP NAME',
+                            text: msg, // add a message to display here
+                    </code>
+                </pre>
+            </div>
+            <div class="col-12 col-lg-4">
+                <!-- Explain your code here -->
+                <p>The code is structured in one function</p>
+                <p><code>displayMessage</code> displays a SweetAlert when the button is pressed.</p>
+            </div>
+        </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @code {
 

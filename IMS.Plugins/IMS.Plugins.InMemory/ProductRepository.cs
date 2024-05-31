@@ -17,7 +17,19 @@ public class ProductRepository : IProductRepository
 			};
     }
 
-    
+    public Task AddProductAsync(Product product)
+    {
+        if (_products.Any(x => x.ProductName.Equals(product.ProductName, StringComparison.OrdinalIgnoreCase))){
+				return Task.CompletedTask;
+			}
+            //find the maximum product Id
+			var maxId = _products.Max(x => x.ProductId);
+            // assign new product the new product id
+			product.ProductId = maxId + 1;
+
+			_products.Add(product);
+			return Task.CompletedTask;
+    }
 
     public async Task<IEnumerable<Product>> GetProductsByNameAsync(string name)
     {
