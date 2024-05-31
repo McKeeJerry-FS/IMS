@@ -1,4 +1,6 @@
-﻿@if(Products != null && Products.Count > 0)
+﻿@inject NavigationManager navigation 
+
+@if(Products != null && Products.Count > 0)
 { 
     foreach (var prod in Products)
     {
@@ -8,7 +10,7 @@
             <td>@prod.Quantity</td>
             <td>
                 <button type="button" class="btn btn-info">Details</button>
-                <button type="button" class="btn btn-primary">Edit</button>
+                <button type="button" class="btn btn-primary" @onclick="@(() => EditProduct(prod.ProductId))">Edit</button>
                 <button type="button" class="btn btn-danger">Delete</button>
             </td>
             
@@ -20,5 +22,8 @@
     [Parameter]
     public List<Product> Products { get; set; } = new List<Product>();
 
-    
+    private void EditProduct(int productId)
+    {
+        navigation.NavigateTo($"/editProduct/{productId}");
+    }
 }

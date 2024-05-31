@@ -1,11 +1,10 @@
 using IMS.Plugins.InMemory;
-using IMS.UseCases;
+
 using IMS.UseCases.Inventories;
 using IMS.UseCases.Products;
 using IMS.UseCases.PluginInterfaces;
 using IMS.WebApp.Data;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +24,9 @@ builder.Services.AddTransient<IViewInventoryByIdUseCase, ViewInventoryByIdUseCas
 
 //For Products
 builder.Services.AddTransient<IViewProductsByNameUseCase, ViewProductsByNameUseCase>();
+builder.Services.AddTransient<IViewProductByIdUseCase, ViewProductByIdUseCase>();
 builder.Services.AddTransient<IAddProductUseCase, AddProductUseCase>();
+builder.Services.AddTransient<IEditProductUseCase, EditProductUseCase>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
