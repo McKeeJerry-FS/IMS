@@ -1,8 +1,8 @@
 using IMS.Plugins.InMemory;
-
 using IMS.UseCases.Inventories;
 using IMS.UseCases.Products;
 using IMS.UseCases.PluginInterfaces;
+using IMS.UseCases.Activities;
 using IMS.WebApp.Data;
 
 
@@ -15,6 +15,7 @@ builder.Services.AddSingleton<WeatherForecastService>();
 
 builder.Services.AddSingleton<IInventoryRepository, InventoryRepository>();
 builder.Services.AddSingleton<IProductRepository, ProductRepository>();
+builder.Services.AddSingleton<IInventoryTransactionRepository, InventoryTransactionRepository>();
 
 // For Inventories
 builder.Services.AddTransient<IViewInventoriesByNameUseCase, ViewInventoriesByNameUseCase>();
@@ -27,6 +28,9 @@ builder.Services.AddTransient<IViewProductsByNameUseCase, ViewProductsByNameUseC
 builder.Services.AddTransient<IViewProductByIdUseCase, ViewProductByIdUseCase>();
 builder.Services.AddTransient<IAddProductUseCase, AddProductUseCase>();
 builder.Services.AddTransient<IEditProductUseCase, EditProductUseCase>();
+
+builder.Services.AddTransient<IPurchaseInventoryUseCase, PurchaseInventoryUseCase>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
