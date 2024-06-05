@@ -31,19 +31,19 @@ public class ProductRepository : IProductRepository
 			return Task.CompletedTask;
     }
 
-    public Task EditProductAsync(Product product)
+    public Task UpdateProductAsync(Product product)
     {
-        if(_products.Any(x => x.ProductId == product.ProductId && x.ProductName.Equals(product.ProductName, StringComparison.OrdinalIgnoreCase)))
-				return Task.CompletedTask;
+        if (_products.Any(x => x.ProductId != product.ProductId && x.ProductName.ToLower() == product.ProductName.ToLower())) return Task.CompletedTask; 
 
-            var inv = _products.FirstOrDefault(x => x.ProductId == product.ProductId);
-			if (inv != null)
-			{
-				inv.ProductName = product.ProductName;
-				inv.Quantity = product.Quantity;
-				inv.Price = product.Price;
-			}
-			return Task.CompletedTask;
+        var prod = _products.FirstOrDefault(x => x.ProductId == product.ProductId);
+        if (prod != null) 
+        { 
+            prod.ProductName = product.ProductName;
+            prod.Quantity = product.Quantity;
+            prod.Price = product.Price;
+            prod.ProductInventories = prod.ProductInventories;
+        }
+        return Task.CompletedTask;
     }
 
     public async Task<IEnumerable<Product>> GetProductsByNameAsync(string name)
@@ -52,17 +52,41 @@ public class ProductRepository : IProductRepository
 			return _products.Where(x => x.ProductName.Contains(name, StringComparison.OrdinalIgnoreCase));
     }
 
-    public async Task<Product> GetProductByIdAsync(int productId)
+    public async Task<Product?> GetProductByIdAsync(int productId)
     {
-        var prod = _products.First(x => x.ProductId == productId);
-            var newProd = new Product
+        var prod = _products.FirstOrDefault(x => x.ProductId == productId);
+        var newProd = new Product();
+        if (prod is not null)    
+        {
+            newProd.ProductId = prod.ProductId;
+            newProd.ProductName = prod.ProductName;
+            newProd.Price = prod.Price;
+            newProd.Quantity = prod.Quantity;
+            newProd.ProductInventories = new List<ProductInventory>();
+            if(prod.ProductInventories != null && prod.ProductInventories.Count > 0)
             {
-                ProductId = prod.ProductId,
-                ProductName = prod.ProductName,
-                Price = prod.Price,
-                Quantity = prod.Quantity
-            };
+                foreach(var prodInv in prod.ProductInventories)
+                {
+                    var newProdInv = new ProductInventory
+                    {
+                        InventoryId = prodInv.InventoryId,
+                        ProductId = prodInv.ProductId,
+                        Product = prod,
+                        Inventory = new Inventory(),
+                        InventoryQuantity = prodInv.InventoryQuantity,
+                    };
+                    if(prodInv.Inventory is not null)
+                    {
+                        newProdInv.Inventory.InventoryId = prodInv.Inventory.InventoryId;
+                        newProdInv.Inventory.InventoryName = prodInv.Inventory.InventoryName;
+                        newProdInv.Inventory.Price = prodInv.Inventory.Price;
+                        newProdInv.Inventory.Quantity = prodInv.Inventory.Quantity;
+                    }
+                    newProd.ProductInventories.Add(newProdInv);
+                }
+            } 
+        };
 
-            return await Task.FromResult(newProd);
+        return await Task.FromResult(newProd);
     }
 }

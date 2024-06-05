@@ -10,7 +10,7 @@
             <td>@prod.Quantity</td>
             <td>
                 <button type="button" class="btn btn-info">Details</button>
-                <button type="button" class="btn btn-primary" @onclick="@(() => EditProduct(prod.ProductId))">Edit</button>
+                <button type="button" class="btn btn-primary" @onclick="@(() => EditProduct(prod))">Update</button>
                 <button type="button" class="btn btn-danger">Delete</button>
             </td>
             
@@ -22,8 +22,8 @@
     [Parameter]
     public List<Product> Products { get; set; } = new List<Product>();
 
-    private void EditProduct(int productId)
+    private void EditProduct(Product product)
     {
-        navigation.NavigateTo($"/editProduct/{productId}");
+        navigation.NavigateTo($"/editProduct/{product.ProductId}");
     }
 }

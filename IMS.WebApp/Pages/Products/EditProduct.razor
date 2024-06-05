@@ -6,12 +6,15 @@
 
 <h3>EditProduct</h3>
 <br />
-<EditForm Model="product" OnValidSubmit="SaveProduct">
+
+if(product != null) 
+{
+    <EditForm Model="product" OnValidSubmit="SaveProduct">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <div class="form-group">
         <label for="name">Product Name</label>
-        <InputText id="name" @bind-Value="product.ProductName"
+        <InputText id="name" @bind-Value="product!.ProductName"
                    class="form-control" >
                    </InputText>
     </div>
@@ -39,22 +42,26 @@
 
 
 </EditForm>
+}
 
 
 @code {
     [Parameter]
     public int ProdId{ get; set; }
 
-    private Product product = new Product();
+    private Product? product;
 
-    protected override async Task OnParametersSetAsync()
+    protected override  async Task OnParametersSetAsync()
     {
         this.product = await viewProductByIdUseCase.ExecuteAsync(this.ProdId);
     }
 
     private async Task SaveProduct()
     {
-       await editProductUseCase.ExecuteAsync(this.product);
+        if(product != null)
+        {           
+            await editProductUseCase.ExecuteAsync(this.product!);
+        }
        navigation.NavigateTo("/products");
     }
 
