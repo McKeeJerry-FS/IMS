@@ -1,0 +1,88 @@
+﻿@page "/purchaseInventory"
+@inject IViewInventoriesByNameUseCase viewInventoriesByNameUseCase
+@inject IViewInventoryByIdUseCase viewInventoriesByIdUseCase
+@inject IPurchaseInventoryUseCase purchaseInventoryUseCase
+
+<h3>PurchaseInventory</h3>
+<br />
+
+<EditForm Model="purchaseViewModel" OnInvalidSubmit="Purchase">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="po">Purchase Order #</label>
+        <InputText id="po" @bind-Value="purchaseViewModel.PONumber" class="form-control"></InputText>
+    </div>
+    <br />
+    <div class="card">
+        <div class="card-body"> 
+            <div class="form-group">
+                <AutoCompleteComponent 
+                    Label="Inventory to Purchase"
+                    SearchFunction="SearchInventory"
+                    OnItemSelected="OnItemSelected">
+                </AutoCompleteComponent>
+                <input type="hidden" value="@purchaseViewModel.InventoryId" />
+                @if (purchaseViewModel.InventoryId > 0 && purchaseViewModel.InventoryPrice >= 0)
+                {
+                    <text>Price:</text>
+                    @purchaseViewModel.InventoryPrice.ToString("c");
+                }
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <label for="qty">Quantity</label>
+        <InputNumber id="qty" @bind-Value="purchaseViewModel.QuantityToPurchase" class="form-control"></InputNumber>
+    </div>
+
+    <br />
+    <button type="submit" class="btn btn-primary">Purchase</button>
+</EditForm>
+
+
+
+
+@code {
+    private PurchaseViewModel purchaseViewModel = new PurchaseViewModel();
+
+    private Inventory? selectedInventory = null;
+
+    private async Task Purchase()
+    {
+
+        await purchaseInventoryUseCase.ExecuteAsync(
+            this.purchaseViewModel.PONumber,
+            this.selectedInventory,
+            this.purchaseViewModel.QuantityToPurchase,
+            "Jerry"
+        );
+
+        this.purchaseViewModel = new PurchaseViewModel();
+        this.selectedInventory = null;
+    }
+
+    private async Task OnItemSelected(ItemViewModel item)
+    {
+        this.selectedInventory = await viewInventoriesByIdUseCase.ExecuteAsync(item.Id);
+
+        purchaseViewModel.InventoryId = item.Id;
+        purchaseViewModel.InventoryPrice = this.selectedInventory.Price;
+    }
+
+    private List<ItemViewModel>? SearchInventory(string name)
+    {
+        var list = viewInventoriesByNameUseCase.ExecuteAsync(name).GetAwaiter().GetResult();
+        if (list == null) return null;
+
+        return list.Select(x => new ItemViewModel
+            {
+                Id = x.InventoryId,
+                Name = x.InventoryName
+
+            })?.ToList();
+    }
+
+}

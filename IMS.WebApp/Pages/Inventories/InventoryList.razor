@@ -14,15 +14,21 @@
         class="btn btn-primary"
         @onclick="AddInventory">Add Inventory</button>
 
-<IMS.WebApp.Controls.Common.AutoCompleteComponent Label="Inventory" SearchFunction="SearchInventory"></IMS.WebApp.Controls.Common.AutoCompleteComponent>
+
 
 @code {
+    private ItemViewModel? selectedItem = null;
 
     private string searchTerm = string.Empty;
 
     private void OnInventorySearch(string searchTerm)
     {
         this.searchTerm = searchTerm;
+    }
+
+    private void OnItemSelected(ItemViewModel item)
+    {
+        this.selectedItem = item;
     }
 
     private void AddInventory(){
